@@ -26,6 +26,8 @@ class Filters
 			$timestamp = strtotime($value);
 			if($timestamp === false && is_numeric($value))
 				$timestamp = $value;
+			if($timestamp==0)
+				return '';
 			return date($format,$timestamp);
 		});
 		
@@ -43,6 +45,7 @@ class Filters
 		
 		$this->register('dump', function($value){
 			var_dump($value);
+			return $value;
 		});
 		
 		$this->register('json', function($value){
@@ -65,7 +68,13 @@ class Filters
 		$this->register('join', function($value, $sep){
 			return implode($sep, $value);
 		});
-		
+
+		$this->register('checked', function($value){
+			return $value ? 'checked="checked"':'';
+		});
+		$this->register('selected', function($value){
+			return $value ? 'selected="selected"':'';
+		});
 	}
 
 }

@@ -233,7 +233,10 @@ class Data
 		var_dump($o);
 		
 	}
-	
+	public function fullDump()
+	{
+		var_dump($this);
+	}
 	public function __isset($name)
 	{
 		return /*$this->isKeyword($name) || */array_key_exists($name,$this->aDatas) ||

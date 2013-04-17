@@ -77,6 +77,7 @@ class Simplate
 	private $oSimplateData;
 	private $oSimplateCallback;
 	private $oSimplateFilters;
+	private $oScope;
 	/**
 	 * Path of cache
 	 *
@@ -151,6 +152,14 @@ class Simplate
 	{
 		return $this->oSimplateFilters;
 	}
+	public function setScope(s\Scope $s)
+	{
+		$this->oScope = $s;
+	}
+	public function getScope()
+	{
+		return $this->oScope;
+	}
 	public function generate(s\Data $sd = null)
 	{
 		if($sd !== null)
@@ -175,9 +184,11 @@ class Simplate
 	
 		//Generate...
 		$ic = s\Util::InitChrono();
-		$scope = new \simplate\Scope($this->oSimplateData);
-		$scope->simplate = $this;
-		$s = $oRoot->generate($scope);
+		if(!$this->oScope)
+			$this->oScope = new s\Scope($this->oSimplateData);
+
+		$this->oScope->simplate = $this;
+		$s = $oRoot->generate($this->oScope);
 		$this->infos->generation_time = s\Util::GetChrono($ic);
 		$oRoot->destroy();
 		unset($oRoot);

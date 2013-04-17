@@ -202,53 +202,53 @@ class Block extends Token
 	public function generate(s\Scope $scope)
 	{
 		$sb = null;
-                
-                $type = $this->oStartSectionToken ? $this->oStartSectionToken->type : null;
-                
-                $val = $this->isRoot?$scope:
-                        ($this->oStartSectionToken->var? $this->oStartSectionToken->var->generate($scope):null);
-                
-			    
-                //Precalc count elements, used in generateTokens
-		$this->toklen = sizeof($this->aToken); 
-		$this->strlen = sizeof($this->aString);
-                //var_dump('generate',$type);
-                switch($type)
-                {
-                    case Section::TYPE_IF:
-                    case Section::TYPE_ELSEIF:
-                        if($val)
-                            return $this->generateTokens($scope);
-                        return null;
-                        break;
-                    case Section::TYPE_ELSE:
-                    case Section::TYPE_BLOCK:
-                    case Section::TYPE_IGNORE:
-                        $val = $scope;
-                    default:
-                        if(is_array($val) || $val instanceof \Traversable)
-                        {
-                                foreach($val as $j=>$v)
-                                {
-                                        if(!($v instanceof s\Data))
-                                        {   
-						$o = $v;
-                                                $v = new s\Data($scope->data);
-                                                $v->import($o);
-                                        }
-                                        $sb .= $this->generateTokens($scope->sub($v,$j));
-                                }
-                        }
-                        else if($val instanceof s\Scope )
-                                $sb .= $this->generateTokens($val);
-                        break;
-                        
-                }
-                return $sb;
+				
+				$type = $this->oStartSectionToken ? $this->oStartSectionToken->type : null;
+				
+				$val = $this->isRoot?$scope:
+						($this->oStartSectionToken->var? $this->oStartSectionToken->var->generate($scope):null);
+				
+				
+				//Precalc count elements, used in generateTokens
+				$this->toklen = sizeof($this->aToken); 
+				$this->strlen = sizeof($this->aString);
+				//var_dump('generate',$type);
+				switch($type)
+				{
+					case Section::TYPE_IF:
+					case Section::TYPE_ELSEIF:
+						if($val)
+							return $this->generateTokens($scope);
+						return null;
+						break;
+					case Section::TYPE_ELSE:
+					case Section::TYPE_BLOCK:
+					case Section::TYPE_IGNORE:
+						$val = $scope;
+					default:
+						if(is_array($val) || $val instanceof \Traversable)
+						{
+							foreach($val as $j=>$v)
+							{
+								if(!($v instanceof s\Data))
+								{
+									$o = $v;
+									$v = new s\Data($scope->data);
+									$v->import($o);
+								}
+								$sb .= $this->generateTokens($scope->sub($v,$j));
+							}
+						}
+						else if($val instanceof s\Scope )
+							$sb .= $this->generateTokens($val);
+						break;
+						
+				}
+				return $sb;
 	}
 	public function generateTokens(s\Scope $scope)
 	{
-                $s = '';
+				$s = '';
 		if($this->strlen>0)
 			$s = $this->aString[0]; //Add fisrt string
 		$previousEmptyBlock = null; 
@@ -265,18 +265,18 @@ class Block extends Token
 				
 				if($r === null && $tok->alternateBlock)
 				{
-                                        //var_dump('enter alternate');
-                                        $alt = $tok->alternateBlock;
-                                        while($alt)
-                                        {
-                                            if($r = $alt->generate($scope))
-                                            {
+										//var_dump('enter alternate');
+										$alt = $tok->alternateBlock;
+										while($alt)
+										{
+											if($r = $alt->generate($scope))
+											{
 						$s .= $r;
-                                                break;
-                                            }
-                                            $alt = $alt->alternateBlock;
-                                        }
-                                        //var_dump('leave alternate');
+												break;
+											}
+											$alt = $alt->alternateBlock;
+										}
+										//var_dump('leave alternate');
 				}
 				else
 				{
@@ -295,7 +295,7 @@ class Block extends Token
 		}
 		if($n+1<$this->strlen)
 			$s .= $this->aString[$n+1];
-                //var_dump('leave generateTokens');
+				//var_dump('leave generateTokens');
 		return $s;
 	}
 	public function __construct(Token $parent = null,Section $oStart = null)

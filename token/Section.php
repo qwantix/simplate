@@ -229,12 +229,12 @@ class Section extends Token
 		switch($this->type)
 		{
 			case self::TYPE_INCLUDE:
-				
-				$oSpl = new Simplate();
-				$oSpl->open($this->var->generate($scope));
+				$oSpl = new \Simplate();
+				$oSpl->open($this->var->generate($scope)); //TODO when not / use relative to this template path
 				$oSpl->setCallback($scope->simplate->getCallback());
-				$oSpl->setFilters($scope->simplate->getFilter());
-				return $oSpl->generate($scope->sub()->data); //XXX
+				$oSpl->setFilters($scope->simplate->getFilters());
+				$oSpl->setScope($scope->sub());
+				return $oSpl->generate();
 				break;
 			case self::TYPE_CALL:
 				$scope = $scope->sub();
