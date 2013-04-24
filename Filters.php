@@ -75,6 +75,12 @@ class Filters
 		$this->register('selected', function($value){
 			return $value ? 'selected="selected"':'';
 		});
+		$this->register('lowercase', function($value){
+			return strtolower($value);
+		});
+		$this->register('uppercase', function($value){
+			return strtoupper($value);
+		});
 	}
 
 }
