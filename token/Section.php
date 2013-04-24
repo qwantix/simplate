@@ -230,7 +230,10 @@ class Section extends Token
 		{
 			case self::TYPE_INCLUDE:
 				$oSpl = new \Simplate();
-				$oSpl->open($this->var->generate($scope)); //TODO when not / use relative to this template path
+				$path = $this->var->generate($scope);
+				if($path{0} !== '/')
+					$path = dirname($scope->simplate->getFilename()) . '/' . $path; //Relative path 
+				$oSpl->open($path);
 				$oSpl->setCallback($scope->simplate->getCallback());
 				$oSpl->setFilters($scope->simplate->getFilters());
 				$oSpl->setScope($scope->sub());
