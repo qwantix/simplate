@@ -42,7 +42,10 @@ class Filters
 		$this->register('htmlentities', function($value){
 			return htmlentities( mb_check_encoding($value,"UTF-8") ? utf8_decode($value) : $value);
 		});
-		
+		$this->register('urlencode', function($value){
+			return urlencode(mb_check_encoding($value,"UTF-8") ? utf8_decode($value) : $value);
+		});
+
 		$this->register('dump', function($value){
 			var_dump($value);
 			return $value;
@@ -78,9 +81,7 @@ class Filters
 		$this->register('lowercase', function($value){
 			return strtolower($value);
 		});
-		$this->register('uppercase', function($value){
-			return strtoupper($value);
-		});
+		
 	}
 
 }
