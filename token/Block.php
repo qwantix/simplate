@@ -203,48 +203,48 @@ class Block extends Token
 	{
 		$sb = null;
 				
-				$type = $this->oStartSectionToken ? $this->oStartSectionToken->type : null;
-				
-				$val = $this->isRoot?$scope:
-						($this->oStartSectionToken->var? $this->oStartSectionToken->var->generate($scope):null);
-				
-				
-				//Precalc count elements, used in generateTokens
-				$this->toklen = sizeof($this->aToken); 
-				$this->strlen = sizeof($this->aString);
-				//var_dump('generate',$type);
-				switch($type)
+		$type = $this->oStartSectionToken ? $this->oStartSectionToken->type : null;
+		
+		$val = $this->isRoot?$scope:
+				($this->oStartSectionToken->var? $this->oStartSectionToken->var->generate($scope):null);
+		
+		
+		//Precalc count elements, used in generateTokens
+		$this->toklen = sizeof($this->aToken); 
+		$this->strlen = sizeof($this->aString);
+		//var_dump('generate',$type);
+		switch($type)
+		{
+			case Section::TYPE_IF:
+			case Section::TYPE_ELSEIF:
+				if($val)
+					return $this->generateTokens($scope);
+				return null;
+				break;
+			case Section::TYPE_ELSE:
+			case Section::TYPE_BLOCK:
+			case Section::TYPE_IGNORE:
+				$val = $scope;
+			default:
+				if(is_array($val) || $val instanceof \Traversable)
 				{
-					case Section::TYPE_IF:
-					case Section::TYPE_ELSEIF:
-						if($val)
-							return $this->generateTokens($scope);
-						return null;
-						break;
-					case Section::TYPE_ELSE:
-					case Section::TYPE_BLOCK:
-					case Section::TYPE_IGNORE:
-						$val = $scope;
-					default:
-						if(is_array($val) || $val instanceof \Traversable)
+					foreach($val as $j=>$v)
+					{
+						if(!($v instanceof s\Data))
 						{
-							foreach($val as $j=>$v)
-							{
-								if(!($v instanceof s\Data))
-								{
-									$o = $v;
-									$v = new s\Data($scope->data);
-									$v->import($o);
-								}
-								$sb .= $this->generateTokens($scope->sub($v,$j));
-							}
+							$o = $v;
+							$v = new s\Data($scope->data);
+							$v->import($o);
 						}
-						else if($val instanceof s\Scope )
-							$sb .= $this->generateTokens($val);
-						break;
-						
+						$sb .= $this->generateTokens($scope->sub($v,$j));
+					}
 				}
-				return $sb;
+				else if($val instanceof s\Scope )
+					$sb .= $this->generateTokens($val);
+				break;
+				
+		}
+		return $sb;
 	}
 	public function generateTokens(s\Scope $scope)
 	{
