@@ -40,10 +40,10 @@ class Filters
 		});
 		
 		$this->register('htmlentities', function($value){
-			return htmlentities( mb_check_encoding($value,"UTF-8") ? utf8_decode($value) : $value);
+			return htmlentities( mb_check_encoding($value,"UTF-8") ? $value : utf8_encode($value), \ENT_COMPAT, 'UTF-8');
 		});
 		$this->register('urlencode', function($value){
-			return urlencode(mb_check_encoding($value,"UTF-8") ? utf8_decode($value) : $value);
+			return urlencode($value);
 		});
 
 		$this->register('dump', function($value){
