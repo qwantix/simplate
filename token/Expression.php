@@ -69,6 +69,7 @@ class Expression extends Token
 			'!=' => 1,
 			'>' => 1,
 			'<' => 1,
+			'^='=> 1,
 			//
 			'+' => 2,
 			'-' => 2,
@@ -134,7 +135,12 @@ class Expression extends Token
 						$char = '<=';
 						$pos++;	 
 					}
-				
+				case '^':
+					if($char == '^' && $content[$pos+1] == '=')
+					{
+						$char = '^=';
+						$pos++;	 
+					}
 				case '%':
 				case '!':
 					if($char == '!' && $content[$pos+1] == '=')
@@ -356,6 +362,9 @@ class Expression extends Token
 							break;
 						case '!=':
 							$v = $v1 != $v2;
+							break;
+						case '^=':
+							$v = strpos($v1, $v2) !== false;
 							break;
 						case '%':
 							$v = $v1 % $v2;
