@@ -133,7 +133,12 @@ abstract class Token
 	
 	public function __sleep()
 	{
-		return array("\0Token\0token_id","\0Token\0level","parent","simplate");
+		return array(
+			"\0simplate\\token\\Token\0token_id",
+			"\0simplate\\token\\Token\0level",
+			'parent'
+		);
+		//return array("\0simplate\Token\0token_id","\0Token\0level","parent","simplate");
 	}
 	
 	

@@ -93,7 +93,7 @@ class Simplate
 	{
 		$this->content = file_get_contents($filename);
 		$this->filename = $filename;
-		$this->internalFilename = 'file-'.md5($filename);
+		$this->internalFilename = 'spl_'.strtolower(preg_replace('`[\W]+`', '-', $filename)).'_'.substr(md5($filename),0,4).'.cache';
 	}
 	public function setContent($content)
 	{
@@ -120,7 +120,11 @@ class Simplate
 		    $this->pathCache = $path;
 		}
 		else
-			throw new ErrorException("$path doesn't' exist!");
+			throw new ErrorException("Cache path '$path' doesn't exist!");
+	}
+	public function getCachePath()
+	{
+		return $this->pathCache;
 	}
 	public function setData(s\Data $sd)
 	{
@@ -270,7 +274,7 @@ class Simplate
 		if(empty($this->pathCache))
 		{
 			$dir = realpath (dirname($this->filename));
-			if(1 || is_writable($dir))
+			if(is_writable($dir))
 			{
 				if(!file_exists($dir.'/.simplatecache'))
 				{

@@ -233,10 +233,11 @@ class Section extends Token
 				$path = $this->var->generate($scope);
 				if($path{0} !== '/')
 					$path = dirname($scope->simplate->getFilename()) . '/' . $path; //Relative path 
-				$oSpl->open($path);
+				$oSpl->setCachePath($scope->simplate->getCachePath());
 				$oSpl->setCallback($scope->simplate->getCallback());
 				$oSpl->setFilters($scope->simplate->getFilters());
 				$oSpl->setScope($scope->sub());
+				$oSpl->open($path);
 				return $oSpl->generate();
 				break;
 			case self::TYPE_CALL:

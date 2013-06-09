@@ -341,6 +341,15 @@ class Variable extends Token
 	}
 	public function __sleep()
 	{
-		return array_merge(array("sName","nLevel","prop","bReverse","bBoolean","bFunction","aParam"),parent::__sleep());
+		return array_merge(array(
+			"sName",
+			"nLevel",
+			"prop",
+			"bReverse",
+			"bBoolean",
+			"bFunction",
+			"aParam",
+			"isKeyword"
+		),parent::__sleep());
 	}
 }
