@@ -90,7 +90,11 @@ class Expression extends Token
 			/*//Get next char
 			while($content[$pos] == ' ' || $content[$pos] == "\t" || $content[$pos] == "\n")
 				{$pos++;}*/
-			$pos = s\Util::getNextNotWhiteChar($content,$pos);
+			$oPos = s\Util::getNextNotWhiteChar($content,$pos);
+			if(!isset($content[$oPos]))
+				return $this->returnParseError($pos,'Missing end of expression ' /*"'.substr($content, max(0,$pos), 30).'"'*/);
+			
+			$pos = $oPos;
 			$char = $content[$pos];
 			
 			switch($char)
