@@ -69,7 +69,9 @@ class Filters
 		});
 		
 		$this->register('join', function($value, $sep){
-			return implode($sep, $value);
+			if($value instanceof Data)
+				$value = $value->val();
+			return is_array($value) ? implode($sep, $value) : $value;
 		});
 
 		$this->register('checked', function($value){
