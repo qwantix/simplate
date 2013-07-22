@@ -9,4 +9,9 @@ class Callback
 	{
 		return is_array($array) ? in_array($value, $array) : $value == $array;
 	}
+
+	public function count($value)
+	{
+		return is_array($value) ? count($value) : 0;
+	}
 }
