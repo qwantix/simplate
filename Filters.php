@@ -74,12 +74,35 @@ class Filters
 			return is_array($value) ? implode($sep, $value) : $value;
 		});
 
+		$this->register('split', function($value, $sep = ''){
+			if($value instanceof Data)
+				$value = $value->val();
+			return is_string($value) ? ($sep?explode($sep, $value):str_split($value)) : $value;
+		});
+
+		$this->register('pad', function($value, $length, $string = " ", $align = 'right'){
+			if($value instanceof Data)
+				$value = $value->val();
+			if($align == 'right')
+				$type = STR_PAD_LEFT;
+			else if($align == 'left')
+				$type = STR_PAD_RIGHT;
+			else if($align == 'center')
+				$type = STR_PAD_BOTH;
+			else
+				$type = STR_PAD_RIGHT;
+
+			return str_pad($value, $length, $string, $type);
+		});
+
 		$this->register('checked', function($value){
 			return $value ? 'checked="checked"':'';
 		});
+
 		$this->register('selected', function($value){
 			return $value ? 'selected="selected"':'';
 		});
+
 		$this->register('lowercase', function($value){
 			return strtolower($value);
 		});
