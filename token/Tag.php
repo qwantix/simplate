@@ -1,4 +1,4 @@
-<?
+<?php
 namespace simplate\token;
 use simplate as s;
 /**

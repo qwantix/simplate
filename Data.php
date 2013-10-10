@@ -257,18 +257,11 @@ class Data
 	
 	public function __get($name)
 	{	
-		/*if($this->isKeyword($name))
-		{
-			return $this->{'_'.$name};
-		}
-		else*/
-		{
-			if(is_object($this->_value) || is_array($this->_value))
-			{
-				return is_object($this->_value)?$this->_value->$name:$this->_value[$name];
-			}
-			return $this->resolveName($name);
-		}
+		if(is_object($this->_value) && isset($this->_value->$name))
+            return $this->_value->$name;
+        else if(is_array($this->_value) && isset($this->_value[$name]))
+            return $this->_value[$name];
+        return $this->resolveName($name);
 	}
 	
 	public function __construct(Data $parent = null,$name = null, $index = 0)
@@ -303,7 +296,7 @@ class Data
 		
 		unset(
 			//$this->aDatas,
-			$this->_parent,
+			//$this->_parent,
 			$this->_top,
 			$this->_simplate,
 			$this->_this,

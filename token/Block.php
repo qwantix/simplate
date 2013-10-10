@@ -265,23 +265,22 @@ class Block extends Token
 				
 				if($r === null && $tok->alternateBlock)
 				{
-										//var_dump('enter alternate');
-										$alt = $tok->alternateBlock;
-										while($alt)
-										{
-											if($r = $alt->generate($scope))
-											{
-						$s .= $r;
-												break;
-											}
-											$alt = $alt->alternateBlock;
-										}
-										//var_dump('leave alternate');
+					//var_dump('enter alternate');
+					$alt = $tok->alternateBlock;
+					while($alt)
+					{
+						if($r = $alt->generate($scope))
+						{
+							$s .= $r;
+							break;
+						}
+						$alt = $alt->alternateBlock;
+					}
+					//var_dump('leave alternate');
 				}
 				else
 				{
 					$s .= $r;
-					
 				}
 			}
 			else 

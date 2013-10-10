@@ -219,6 +219,8 @@ class Variable extends Token
 		{
 			$fn = $data->getValue();
 			$s = call_user_func_array($fn,$this->generateParams($scope));
+			if(isset($this->prop))
+				$s = $this->prop->applyAsProp($s, $scope, true);
 		}
 		elseif($scope->simplate)
 		{
@@ -235,9 +237,9 @@ class Variable extends Token
 			throw new \Exception('Core error : property simplate not defined in s\Data, var: '.$this->sName);
 		}
 		return $s;
-		}
-		private function applyAsCallback(s\Callback $sc)
-		{
+	}
+	private function applyAsCallback(s\Callback $sc)
+	{
 		$a = array();
 		for($i=0;$i<sizeof($this->aParam);$i++)
 			$a[] = $this->aParam[$i]->generate($sc->scope);
